@@ -1,0 +1,21 @@
+{% extends "appbuilder/base.html"%}
+
+{%block content%}
+
+<h2>Doc Tour</h2>
+
+<div class="input-group input-group-lg">
+  <input id="major_kw" type="text" class="form-control" placeholder="python Library you try to work with" aria-describedby="basic-addon2">
+  <span id="major_kw_btn" class="input-group-addon" id="basic-addon2">Try to work with </span>
+</div>
+
+<hr>
+<div id = "major_search_result">
+
+</div>
+{%endblock%}
+
+{%block tail_js%}
+<script src="/static/js/nunjucks.js"></script>
+<script src="/static/js/index.js"></script>
+{%endblock%}

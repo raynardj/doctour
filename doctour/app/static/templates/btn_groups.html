@@ -1,0 +1,5 @@
+<div class = "btn-group">
+    {% for btn in btns%}
+        <div {%if btn.id%}{{btn.id}}{%endif%} class="btn{%if btn.bstype%} btn-{{btn.bstype}}{%endif%}">{{btn.text}}</div>
+    {%endfor%}
+</div>

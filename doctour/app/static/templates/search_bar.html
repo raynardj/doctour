@@ -1,0 +1,11 @@
+<div class="input-group input-group-lg">
+  <input id="{{name}}" type="text" class="form-control" placeholder="{{placeholder}}" aria-describedby="basic-addon2">
+  <span id="{{name}}_btn" class="input-group-addon" id="basic-addon2">{%if btn_text%}{{btn_text}}{%else%}Search{%endif%} </span>
+</div>
+<script>
+    $("#{{name}}").on('keypress',function(e) {
+        if(e.which == 13) {
+            $("#{{name}}_btn").click()
+        }
+    });
+</script>

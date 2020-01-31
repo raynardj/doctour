@@ -1,5 +1,6 @@
 *.pyc
 app.db
+app/dbs/*
 ./tmp
 ./build/*
 .idea

@@ -4,18 +4,21 @@
 
 <h2>Doc Tour</h2>
 
-<div class="input-group input-group-lg">
-  <input id="major_kw" type="text" class="form-control" placeholder="python Library you try to work with" aria-describedby="basic-addon2">
-  <span id="major_kw_btn" class="input-group-addon" id="basic-addon2">Try to work with </span>
-</div>
+<div id="loaded_libs"></div>
+
+<div id="search_bar_frame"></div>
 
 <hr>
 <div id = "major_search_result">
 
 </div>
+<div id="inlib_search_bar"></div>
+<div id="inlib_search_result"></div>
 {%endblock%}
 
 {%block tail_js%}
+{{super()}}
 <script src="/static/js/nunjucks.js"></script>
+<script src="/static/js/elasticlunr.js"></script>
 <script src="/static/js/index.js"></script>
 {%endblock%}

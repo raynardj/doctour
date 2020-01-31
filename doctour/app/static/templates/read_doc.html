@@ -1,0 +1,20 @@
+<h2><strong>{{name}}</strong></h2>
+
+<hr>
+
+<div>
+    <table class="table">
+        <tr><th>Name</th><td>{{name}}</td></tr>
+        <tr><th>Documentation</th><td>{%if doc%}{{doc}}{%else%}{%endif%}</td></tr>
+        <tr><th>Usage within the library</th>
+            <td>
+                <div class="list-group" >
+                {%for nc in names%}
+                    <div class="list-group-item" >{{nc}}</div>
+                {%endfor%}
+                </div>
+            </td></tr>
+
+
+    </table>
+</div>

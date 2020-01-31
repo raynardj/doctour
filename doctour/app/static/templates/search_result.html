@@ -1,0 +1,7 @@
+<ul class="list-group">
+    {%for result in results %}
+    <a class="list-group-item" href="/doc/read/{{lib}}/{{result.doc.id}}/">
+        {{result.doc.name}}
+    </a>
+    {%endfor%}
+</ul>

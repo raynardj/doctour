@@ -1,6 +1,6 @@
 *.pyc
 app.db
-app/dbs/*
+app/dbs/*.db
 ./tmp
 ./build/*
 .idea

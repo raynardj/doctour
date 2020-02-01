@@ -1,5 +1,5 @@
 <div class = "btn-group">
     {% for btn in btns%}
-        <div {%if btn.id%}id="{{btn.id}}"{%endif%} class="btn{%if btn.bstype%} btn-{{btn.bstype}}{%else%} btn-default{%endif%}">{{btn.text}}</div>
+        <{%if btn.a%}a href="{{btn.a}}"{%else%}div{%endif%} {%if btn.id%}id="{{btn.id}}"{%endif%} class="btn{%if btn.bstype%} btn-{{btn.bstype}}{%else%} btn-default{%endif%}">{{btn.text}}</{%if btn.a%}a{%else%}div{%endif%}>
     {%endfor%}
 </div>

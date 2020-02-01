@@ -1,19 +1,121 @@
 <h2><strong>{{name}}</strong></h2>
 
 <hr>
-
+<head>
+    <link rel="stylesheet" href="/static/js/highlight/styles/atom-one-dark.css">
+    <script src="/static/js/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+</head>
 <div>
     <table class="table">
-        <tr><th>Name</th><td>{{name}}</td></tr>
-        <tr><th>Documentation</th><td>{%if doc%}{{doc}}{%else%}{%endif%}</td></tr>
-        <tr><th>Usage within the library</th>
-            <td>
-                <div class="list-group" >
-                {%for nc in names%}
-                    <div class="list-group-item" >{{nc}}</div>
-                {%endfor%}
+        <tr>
+            <th>Name</th>
+            <td>{{name}}</td>
+        </tr>
+        <tr>
+            <th>Documentation</th>
+            <td>{%if doc%}{{doc}}{%else%}{%endif%}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="panel-group" id="accordionCode" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingCode">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseCode"
+                                   aria-expanded="true" aria-controls="collapseCode">
+                                    Code
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseCode" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingCode">
+                            <div class="panel-body">
+                                <pre><code class="python">{{code}}</code></pre>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </td></tr>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="panel-group" id="accordionKids" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingKids">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordionKids" href="#collapseKids"
+                                   aria-expanded="true" aria-controls="collapsekids">
+                                    Attributes
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseKids" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingKids">
+                            <div class="panel-body">
+                                {%for k in kids%}
+                                <a href="/doc/read/{{lib}}/{{k.id}}" target="_blank"
+                                   class="btn btn-success">{{k.name}}</a>
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="panel-group" id="accordionParents" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingParents">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordionParents" href="#collapseParents"
+                                   aria-expanded="true" aria-controls="collapseParents">
+                                    Who use me as attribute
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseParents" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingParents">
+                            <div class="panel-body">
+                                {%for parent in parents%}
+                                <a href="/doc/read/{{lib}}/{{parent.id}}" target="_blank"
+                                   class="btn btn-warning">{{parent.name}}</a>
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <div class="panel-group" id="collapPanel" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingNames">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#collapPanel" href="#collapseNames"
+                                   aria-expanded="true" aria-controls="collapseNames">
+                                    Usage within library
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseNames" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingNames">
+                            <div class="panel-body">
+                                <div class="list-group">
+                                    {%for nc in names%}
+                                    <div class="list-group-item">{{nc}}</div>
+                                    {%endfor%}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
 
 
     </table>

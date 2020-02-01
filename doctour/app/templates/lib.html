@@ -1,18 +1,10 @@
 {% extends "appbuilder/base.html"%}
 
 {%block content%}
+<h1>Search in Module: <strong>{{lib}}</strong></h1>
 
-<h2>Doc Tour</h2>
-
-<div id="loaded_libs"></div>
-
-<div id="search_bar_frame"></div>
-
-<hr>
-<div id = "major_search_result">
-
-</div>
 <div id="inlib_search_bar"></div>
+<hr>
 <div id="inlib_search_result"></div>
 {%endblock%}
 
@@ -21,5 +13,11 @@
 <script src="/static/js/nunjucks.js"></script>
 <script src="/static/js/elasticlunr.js"></script>
 <script src="/static/js/utils.js"></script>
-<script src="/static/js/index.js"></script>
+<script>
+
+    $(document).ready(function(){
+        env = new nunjucks.Environment(new nunjucks.WebLoader('../../..',),{ autoescape: false });
+        load_lib_search_bar("{{lib}}")
+    })
+</script>
 {%endblock%}

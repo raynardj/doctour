@@ -31,9 +31,21 @@ class docModel(Model):
         return dict((col, getattr(self, col)) for col in cols)
 
 class docGraphModel(Model):
-    __tablename__ = "doc_groph"
+    __tablename__ = "doc_graph"
     id = Column(Integer, primary_key=True)
     parent_id = Column(Integer(), ForeignKey("docs.id") )
     parent = relationship(docModel, foreign_keys = [parent_id] )
     kid_id = Column(Integer(), ForeignKey("docs.id"))
     kid = relationship(docModel, foreign_keys=[kid_id])
+
+docModel.kids = relationship(docModel,
+                             secondary = "doc_graph",
+                             primaryjoin = (docModel.id == docGraphModel.parent_id),
+                             secondaryjoin = (docGraphModel.kid_id == docModel.id)
+                             )
+docModel.parents = relationship(docModel,
+                             secondary = "doc_graph",
+                             primaryjoin = (docModel.id == docGraphModel.kid_id),
+                             secondaryjoin = (docGraphModel.parent_id == docModel.id)
+                             )
+# docModel.parents = relationship(docModel, secondary = "doc_graph")

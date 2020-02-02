@@ -3,7 +3,7 @@ from flask_appbuilder.models.sqla.interface import SQLAInterface
 from flask import jsonify,request
 import json
 from doctour.app.models.lib import libModel
-from doctour.base.doc import docModel,docGraphModel
+from doctour.base.doc import docModel,docGraphModel,inhGraphModel
 from doctour.base.parse import docTour
 import importlib
 import os
@@ -26,7 +26,7 @@ class libView(ModelView):
         check_lib = list(self.appbuilder.session.query(libModel).filter(libModel.name == lib).all())
         if len(check_lib)>0:
             return jsonify({"status":200,"success":True, "data":{
-                "frame":pd.read_sql("SELECT id,name from docs",con=ce(check_lib[0].data).connect()).to_dict(orient="record")
+                "frame":pd.read_sql("SELECT id,name,ctype,alias from docs",con=ce(check_lib[0].data).connect()).to_dict(orient="record")
             }})
         else:
             logging.info(f"parsing {lib}")
@@ -45,8 +45,10 @@ class libView(ModelView):
         os.system(f"rm {dataurl}")
         eng = ce(dataurl)
         sess = Session(bind=eng)
-        self.refresh_table(docModel, engine = eng)
-        self.refresh_table(docGraphModel,engine = eng)
+
+        for m in [docModel,docGraphModel,inhGraphModel]:
+            self.refresh_table(m, engine = eng)
+
         dt = docTour(importlib.import_module(lib), lib, sess)
         return dt
 

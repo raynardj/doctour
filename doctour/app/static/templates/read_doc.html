@@ -1,6 +1,11 @@
-<h2><strong>{{name}}</strong></h2>
 
-<hr>
+<div id="loaded_libs"></div>
+
+<h1><strong>{{name}}</strong> {%if name!=alias %}({{alias}}){%endif%} [{{ctype}}]</h1>
+
+<h3>on {{lib}}</h3>
+
+
 <head>
     <link rel="stylesheet" href="/static/js/highlight/styles/atom-one-dark.css">
     <script src="/static/js/highlight/highlight.pack.js"></script>
@@ -13,8 +18,77 @@
             <td>{{name}}</td>
         </tr>
         <tr>
+            <th>File Path</th>
+            <td>{{path}}</td>
+        </tr>
+        {% if doc ==''%}
+        <tr>
             <th>Documentation</th>
-            <td>{%if doc%}{{doc}}{%else%}{%endif%}</td>
+            <td><pre><code class="plaintext">{{doc}}</code></pre></td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td colspan="2">
+                {% if ancs.length>0 %}
+                <div class="panel-group" id="accordionAncestors" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingAncestors">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordionAncestors" href="#collapseAncestors"
+                                   aria-expanded="true" aria-controls="collapseAncestors">
+                                    Class Ancestors
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseAncestors" class="panel-collapse collapse in" role="tabpanel"
+                             aria-labelledby="headingAncestors">
+                            <div class="panel-body">
+                                {%for anc in ancs%}
+                                <a href="/doc/read/{{lib}}/{{anc.id}}" target="_blank"
+                                   class="btn btn-warning">{{anc.name}}{%if anc.name!=anc.alias%}({{anc.alias}}){%endif%}</a>
+                                {%endfor%}
+
+                                <br>
+                                <div id="traceup">Trace Up</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {%else%}
+                The {{ctype}} has no ancestor
+                {%endif%}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                {%if dess.length >0%}
+
+                <div class="panel-group" id="accordionDescendants" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingDescendants">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordionDescendants" href="#collapseDescendants"
+                                   aria-expanded="true" aria-controls="collapseDescendants">
+                                    Class Descendants
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseDescendants" class="panel-collapse collapse in" role="tabpanel"
+                             aria-labelledby="headingDescendants">
+                            <div class="panel-body">
+                                {%for des in dess%}
+                                <a href="/doc/read/{{lib}}/{{des.id}}" target="_blank"
+                                   class="btn btn-warning">{{des.name}}{%if des.name!=des.alias%}({{des.alias}}){%endif%}</a>
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {%else%}
+                The {{ctype}} has no descendant
+                {%endif%}
+            </td>
         </tr>
         <tr>
             <td colspan="2">
@@ -28,7 +102,7 @@
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseCode" class="panel-collapse collapse" role="tabpanel"
+                        <div id="collapseCode" class="panel-collapse collapse in" role="tabpanel"
                              aria-labelledby="headingCode">
                             <div class="panel-body">
                                 <pre><code class="python">{{code}}</code></pre>
@@ -56,7 +130,7 @@
                             <div class="panel-body">
                                 {%for k in kids%}
                                 <a href="/doc/read/{{lib}}/{{k.id}}" target="_blank"
-                                   class="btn btn-success">{{k.name}}</a>
+                                   class="btn btn-{%if k.ctype=='class'%}success{%elif k.ctype=='function'%}primary{%else%}warning{%endif%}">{{k.name}}</a>
                                 {%endfor%}
                             </div>
                         </div>

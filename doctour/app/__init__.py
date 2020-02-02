@@ -22,6 +22,7 @@ class indexView(IndexView):
 
     @expose("/",methods=["GET"])
     def index_view(self):
+        # inspect environment to offer search suggest
         return 123
 
 appbuilder = AppBuilder(app, db.session,indexview=indexView)

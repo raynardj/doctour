@@ -1,0 +1,30 @@
+{%if data.length>0%}
+<hr>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Inheritance Tree</h3>
+    </div>
+    <div class="panel-body">
+        {% for cls in data %}
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{cls.name}} {%if cls.name!=cls.alias%}({{cls.alias}}){%endif%}</h3>
+            </div>
+            <div class="panel-body">
+
+                <a href="/doc/read/{{lib}}/{{cls.id}}/" class="btn btn-default"><strong>{{cls.name}}</strong> Details</a>
+                <hr>
+
+                <div class="list-group">
+                    {%for aid,attr in cls.attrs%}
+                    <a target="_blank" class="list-group-item list-group-item-{%if attr.ctype=='class'%}success{%elif attr.ctype=='function'%}warning{%else%}danger{%endif%}" href="/doc/read/{{lib}}/{{attr.id}}/">
+                        {{attr.name}} {%if attr.name!=attr.alias%}({{attr.alias}}){%endif%} [{{attr.ctype}}]
+                    </a>
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{%endif%}

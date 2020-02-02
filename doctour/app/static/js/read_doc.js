@@ -1,6 +1,8 @@
 
   $(document).ready(function(){
   env = new nunjucks.Environment(new nunjucks.WebLoader('../../../..',),{ autoescape: false });
+  var loaded = load_loaded()
+
   function get_id()
   {
     var href= window.location.href
@@ -26,8 +28,27 @@
   {
      var query = get_id()
      var item = get_item(query)
-     item.data.code = get_code(query.lib,item.data.names[0])
-     return env.render("../../../../static/templates/read_doc.html",item.data)
+     console.log(item)
+
+     if(item.data.code.length < 2)
+     {
+        item.data.code = get_code(query.lib,item.data.names[0])
+     }
+     traceup_json = trace_up(query)
+     traceup_json.lib = query.lib
+     return {detail:env.render("../../../../static/templates/read_doc.html",item.data),traceup:traceup_render(traceup_json), query:query}
+  }
+
+  function trace_up(query)
+  {
+    var lib = query.lib;
+    var doc_id = query.id
+    return $.ajax({
+        url:"/doc/traceup/"+lib+"/"+String(doc_id)+"/",
+        method:"POST",
+        async:false,
+        contentType: 'application/json;charset=UTF-8',
+    }).responseJSON
   }
 
   function get_code(lib,name_chain){
@@ -45,7 +66,14 @@
         return data.data.code
     }
   }
+    var doc_page = read_doc()
+  $("#content_detail").html(doc_page.detail)
+   if(loaded.success)
+  {
+        $("#loaded_libs").html(new_panel("Other Loaded Modules",btn_group(loaded.data)))
 
-  $("#content_detail").html(read_doc())
+  }
+
+    $("#traceup").html(doc_page.traceup)
 
   })

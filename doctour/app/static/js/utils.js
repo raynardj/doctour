@@ -4,6 +4,10 @@ function new_panel(title, content)
 function btn(conf)
     { return env.render('static/templates/btn.html',conf) }
 
+function traceup_render(result)
+{   return env.render('static/templates/traceup.html',result)
+}
+
 function btn_group(btns)
     {
         return env.render('static/templates/btn_groups.html',{"btns":btns})
@@ -16,7 +20,16 @@ function search_result(lib,results)
     {
         return env.render("static/templates/search_result.html",{results:results,lib:lib})
     }
-
+function load_loaded(){
+   var aj=$.ajax({
+    url:"/doc/list_all/",
+    method:"POST",
+    async:false,
+    contentType: 'application/json;charset=UTF-8',
+    success:function(data){return data}
+   })
+   return aj.responseJSON
+  }
 function get_lib_index(lib)
     {
         var aj = $.ajax({
@@ -31,6 +44,7 @@ function get_lib_index(lib)
              console.log("start load search index")
                 var index = elasticlunr(function () {
                 this.addField('name');
+                this.addField('alias');
                 this.addField('path');
                 this.setRef('id');
                 });

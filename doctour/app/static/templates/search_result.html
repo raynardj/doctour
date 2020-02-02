@@ -1,7 +1,7 @@
 <ul class="list-group">
     {%for result in results %}
     <a class="list-group-item" href="/doc/read/{{lib}}/{{result.doc.id}}/">
-        {{result.doc.name}}
+        {{result.doc.name}}{%if result.doc.alias!=result.doc.name%}（Aliases:{{result.doc.alias}}）{%endif%} [{{result.doc.ctype}}]
     </a>
     {%endfor%}
 </ul>

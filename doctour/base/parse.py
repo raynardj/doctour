@@ -1,8 +1,9 @@
 import pandas as pd
 import inspect
-from .doc import docModel, docGraphModel
+from .doc import docModel, docGraphModel, inhGraphModel
+import logging
 
-
+def most_frequent(List): return max(set(List), key = List.count)
 def get_source(obj):
     try:
         return inspect.getsource(obj)
@@ -16,15 +17,26 @@ def get_path(obj):
     except:
         return ""
 
+def checks(obj):
+    if inspect.ismodule(obj):return "module"
+    if inspect.isclass(obj):return "class"
+    if inspect.isfunction(obj):return "function"
+    return False
+
 class docTour(object):
     def __init__(self, root_obj, root_name,sess, load_source=False):
         self.docs = dict()
+        self.inh_cache = set()
+        self.sd_list = list()
         self.root_obj = root_obj
         self.load_source = load_source
         self.sess = sess  # sqla session
         self.doc_parser(self.root_obj, root_name, name_chain=root_name)
-        print(f"saving [{root_name}] basics to db")
+        self.vote_name()
+        logging.info(f"{len(self.docs)} things found")
+        logging.info(f"saving [{root_name}] basics to db")
         self.sess.commit()
+        logging.info(f"creating df for [{root_name}]")
         self.df = self.to_df()
 
     def __len__(self):
@@ -38,10 +50,10 @@ class docTour(object):
 
     def to_df(self):
         df = pd.DataFrame(
-            list(i.to_dicts("id","name", "doc", "path", "names", "level", "source") for i in self.docs.values()))
+            list(i.to_dicts("id","name", "doc", "path", "names", "level", "source","ctype","alias") for i in self.docs.values()))
         return df
 
-    def new_doc(self, name_chain, kid, parent, level):
+    def new_doc(self, name_chain, kid, parent, level,ctype):
         """
         New docModel object
         :param name_chain: name chain string
@@ -50,16 +62,47 @@ class docTour(object):
         :param level: int, level from root obj
         :return: docModel object
         """
-        sd = docModel(id=id(kid), name=name_chain.split(".")[-1], names=name_chain, level=level, doc=str(kid.__doc__),
-                      path=get_path(kid))
+        sd = docModel(id=id(kid), name=name_chain.split(".")[-1],
+                      names=name_chain, level=level, doc=str(kid.__doc__),
+                      ctype = ctype,
+                      )
+        if ctype=="function":
+            path = kid.__code__.co_filename
+            if path[-3:] == ".py":
+                sd.path = path
+                sd.code = inspect.getsource(kid)
+        else:
+            sd.path = get_path(kid)
+        if ctype=="class":
+            self.parse_inh(kid)
         if self.load_source:
             sd.source = get_source(kid)
+
         self.sess.add(sd)
+        self.sd_list.append(sd)
 
         if parent:
             dg = docGraphModel(parent_id=parent.id, kid_id=sd.id)
             self.sess.add(dg)
         return sd
+
+    def parse_inh(self,obj):
+        addr = self.mid(obj)
+        if addr in self.inh_cache:
+            return None
+        elif hasattr(obj,"__bases__"):
+            bases = obj.__bases__
+            if len(bases) == 0: return None
+
+            for b in bases:
+                name = obj.__name__
+                ig = inhGraphModel(anc_id=id(b), des_id=addr)
+                self.sess.add(ig)
+                self.parse_inh(b)
+                if id(b) not in self.docs:
+                    self.doc_parser(b,name,level=1, name_chain=name, parent=None)
+
+            self.inh_cache.add(addr)
 
     def doc_parser(self, obj, name, level=0, name_chain="", parent=None):
         """
@@ -71,6 +114,8 @@ class docTour(object):
         parent: docModel,
         """
         addr = self.mid(obj)
+        ctype = checks(obj)
+        if ctype == False: return None
         if addr in self.docs:
             if type(self.docs[addr]) == docModel:
                 sd = self.docs[addr]
@@ -82,11 +127,12 @@ class docTour(object):
             return None
 
         if hasattr(obj, "__doc__"):
-            sd = self.new_doc(name_chain, obj, parent, level)
+            sd = self.new_doc(name_chain, obj, parent, level, ctype)
             self.docs[addr] = sd
 
         for attr_name in dir(obj):
             sub_obj = getattr(obj, attr_name)
+            if checks(sub_obj)==False: continue
             name_chain_ = name_chain + "." + attr_name
             if self.mid(sub_obj) in self.docs:
                 sd = self.docs[self.mid(sub_obj)]
@@ -105,4 +151,13 @@ class docTour(object):
                         self.doc_parser(getattr(obj, attr_name), attr_name, level=level + 1, name_chain=name_chain_,
                                         parent=self.docs[addr])
                     except Exception as e:
-                        print(f"[ERROR]>>{name_chain_},\t{e}")
+                        logging.error(f"{name_chain_},\t{e}")
+
+    def vote_name(self):
+        logging.info("start voting for most frequent name")
+        for sd in self.sd_list:
+            name_list = list(n.split(".")[-1] for n in sd.names.split(","))
+            sd.name = most_frequent(name_list)
+            sd.alias = ",".join(set(name_list))
+            self.sess.add(sd)
+        logging.info("voting complete")

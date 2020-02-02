@@ -1350,55 +1350,17 @@ function printNodes(node, indent) {
 }
 
 module.exports = {
-  Node: Node,
-  Root: Root,
-  NodeList: NodeList,
-  Value: Value,
-  Literal: Literal,
-  Symbol: Symbol,
-  Group: Group,
-  Array: ArrayNode,
-  Pair: Pair,
-  Dict: Dict,
-  Output: Output,
-  Capture: Capture,
-  TemplateData: TemplateData,
-  If: If,
-  IfAsync: IfAsync,
-  InlineIf: InlineIf,
-  For: For,
-  AsyncEach: AsyncEach,
-  AsyncAll: AsyncAll,
-  Macro: Macro,
-  Caller: Caller,
-  Import: Import,
-  FromImport: FromImport,
-  FunCall: FunCall,
-  Filter: Filter,
-  FilterAsync: FilterAsync,
-  KeywordArgs: KeywordArgs,
-  Block: Block,
-  Super: Super,
-  Extends: Extends,
-  Include: Include,
-  Set: Set,
-  Switch: Switch,
-  Case: Case,
-  LookupVal: LookupVal,
-  BinOp: BinOp,
-  In: In,
-  Is: Is,
-  Or: Or,
-  And: And,
-  Not: Not,
-  Add: Add,
-  Concat: Concat,
-  Sub: Sub,
-  Mul: Mul,
-  Div: Div,
-  FloorDiv: FloorDiv,
-  Mod: Mod,
-  Pow: Pow,
+  Node: Node,Root: Root,NodeList: NodeList,Value: Value,Literal: Literal,Symbol: Symbol,Group: Group,
+  Array: ArrayNode,Pair: Pair,Dict: Dict,Output: Output,Capture: Capture,TemplateData: TemplateData,If: If,IfAsync: IfAsync,
+  InlineIf: InlineIf,For: For,AsyncEach: AsyncEach,AsyncAll: AsyncAll,
+  Macro: Macro,Caller: Caller,Import: Import,
+  FromImport: FromImport,FunCall: FunCall,Filter: Filter,
+  FilterAsync: FilterAsync,KeywordArgs: KeywordArgs,Block: Block,
+  Super: Super,Extends: Extends,Include: Include,
+  Set: Set,Switch: Switch,Case: Case,
+  LookupVal: LookupVal,BinOp: BinOp,In: In,Is: Is,Or: Or,
+  And: And,Not: Not,Add: Add,Concat: Concat,Sub: Sub,
+  Mul: Mul,Div: Div,FloorDiv: FloorDiv,Mod: Mod,Pow: Pow,
   Neg: Neg,
   Pos: Pos,
   Compare: Compare,
@@ -2836,8 +2798,7 @@ function (_Obj) {
     if (_compile) {
       _compile.call(this, node, frame);
     } else {
-      this.fail("compile: Cannot compile node: " + node.typename, node.lineno, node.colno);
-    }
+      this.fail("compile: Cannot compile node: " + node.typename, node.lineno, node.colno);}
   };
 
   _proto.getCode = function getCode() {
@@ -8228,9 +8189,7 @@ function installCompat() {
 
       return i;
     },
-    find: function find(element) {
-      return this.indexOf(element);
-    },
+    find: function find(element) {return this.indexOf(element);},
     insert: function insert(index, elem) {
       return this.splice(index, 0, elem);
     }

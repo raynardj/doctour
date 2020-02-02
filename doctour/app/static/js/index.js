@@ -5,28 +5,6 @@
 
     $("#search_bar_frame").html(search_bar("major_kw","python Library you try to work with", "Try to work with"))
 
-//    function setCookie(cname, cvalue, exdays) {
-//    var d = new Date();
-//    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-//    var expires = "expires="+d.toUTCString();
-//    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-//        }
-//
-//    function getCookie(cname) {
-//    var name = cname + "=";
-//    var ca = document.cookie.split(';');
-//    for(var i = 0; i < ca.length; i++) {
-//    var c = ca[i];
-//    while (c.charAt(0) == ' ') {
-//      c = c.substring(1);
-//        }
-//    if (c.indexOf(name) == 0) {
-//      return c.substring(name.length, c.length);
-//        }
-//    }
-//    return "";
-//    }
-
   function major_search(kw){
      var dt = {"kw":kw}
      var aj = $.ajax({
@@ -47,16 +25,11 @@
   return obj
   }
 
-
-
-
   var loaded = load_loaded()
   if(loaded.success)
   {
         $("#loaded_libs").html(new_panel("Loaded Modules",btn_group(loaded.data)))
   }
-
-
 
     function assign_load_btn(){
 

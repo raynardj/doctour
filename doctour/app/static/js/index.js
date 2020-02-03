@@ -44,7 +44,9 @@
         if(result.success)
         {
             var bg = dom("div","btn-group")
-            var btns = btn_group([{"id":"load_doc_string","text":"Load Doc String","bstype":"primary"},{"text":"Load Code & Doc String","bstype":"danger"}])
+            var btns = btn_group([{"id":"load_doc_string","text":"Load Doc String","bstype":"primary"},
+            // {"text":"Load Code & Doc String","bstype":"danger"}
+          ])
             var p = new_panel("Library Found: "+result.data.name, btns)
             $("#major_search_result").html(p)
             $("#inlib_search_bar").html(null)

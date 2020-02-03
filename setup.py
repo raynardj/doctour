@@ -10,7 +10,7 @@ setup(
     packages = find_packages(),
     include_package_data=True,
     py_modules=['doctour',],
-    scripts = ['doctour/bin', ],
+    scripts = ['doctour/doctour', ],
     package_data={'doctour':['./doctour/templates/*','./doctour/static/*']},
     install_requires = [
         "flask",

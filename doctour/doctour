@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from app import app
+from doctour.app import app
 import argparse
 import logging
 ap = argparse.ArgumentParser()

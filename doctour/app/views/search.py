@@ -40,12 +40,6 @@ class searchView(BaseView):
             "status": 200, "success": True, "data": obj_info
         })
 
-    @expose("/installed/", methods=["GET","POST"])
-    def installed(self):
-        """return a list of installed libs"""
-        return jsonify({"success":True, "status":200, "data":list(inspect.modulesbyfile.values())})
-
-
 class docView(ModelView):
     route_base = "/doc"
     datamodel = SQLAInterface(docModel)

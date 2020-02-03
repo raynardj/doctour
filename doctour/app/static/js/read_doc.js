@@ -32,7 +32,8 @@
 
      if(item.data.code.length < 2)
      {
-        item.data.code = get_code(query.lib,item.data.names[0])
+       var code = get_code(query.lib,item.data.names[0])
+        item.data.code = code
      }
      traceup_json = trace_up(query)
      traceup_json.lib = query.lib

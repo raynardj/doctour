@@ -1,8 +1,12 @@
 import pandas as pd
 import inspect
-from .doc import docModel, docGraphModel, inhGraphModel
+from doctour.base.doc import docModel, docGraphModel, inhGraphModel
 import logging
-
+from sqlalchemy import create_engine as ce
+from sqlalchemy.orm.session import sessionmaker
+import os
+Session = sessionmaker()
+basedir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))+"/app/dbs"
 def most_frequent(List): return max(set(List), key = List.count)
 def get_source(obj):
     try:
@@ -161,3 +165,28 @@ class docTour(object):
             sd.alias = ",".join(set(name_list))
             self.sess.add(sd)
         logging.info("voting complete")
+
+def parse_lib(lib, import_ = True, obj = None):
+    path = os.path.join(basedir, f"{lib}.db")
+    dataurl = "sqlite:///" + path
+    os.system(f"rm {path}")
+    logging.info(f"creating SQLite db:\t {dataurl}")
+    eng = ce(dataurl)
+    sess = Session(bind=eng)
+
+    for m in [docModel,docGraphModel,inhGraphModel]:
+        refresh_table(m, engine = eng)
+
+    if import_:
+        dt = docTour(__import__(lib), lib, sess)
+    else:
+        dt = docTour(obj, lib, sess)
+    return dt,dataurl
+
+def refresh_table(model,engine):
+    table = model.__table__
+    if table.exists(engine):
+        logging.info(f"dropping existing table: {str(table)}")
+        table.drop(engine)
+    logging.info(f"creating a new table: {str(table)}")
+    table.create(engine)

@@ -2,7 +2,7 @@ import logging
 
 from flask import Flask
 from flask_appbuilder import AppBuilder, SQLA
-
+from doctour import config
 """
  Logging configuration
 """
@@ -11,7 +11,7 @@ logging.basicConfig(format="%(asctime)s:%(levelname)s:%(name)s:%(message)s")
 logging.getLogger().setLevel(logging.DEBUG)
 
 app = Flask(__name__)
-app.config.from_object("config")
+app.config.from_object(config)
 db = SQLA(app)
 
 from flask_appbuilder import IndexView,expose

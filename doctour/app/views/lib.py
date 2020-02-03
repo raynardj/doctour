@@ -4,12 +4,12 @@ from flask import jsonify,request
 import json
 from doctour.app.models.lib import libModel
 from doctour.base.doc import docModel,docGraphModel,inhGraphModel
-from doctour.base.parse import docTour
+from doctour.base.parse import docTour, parse_lib
 import importlib
 import os
 import logging
-from sqlalchemy import create_engine as ce
 from sqlalchemy.orm.session import sessionmaker
+from sqlalchemy import create_engine as ce
 import pandas as pd
 
 basedir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))+"/dbs"
@@ -23,6 +23,10 @@ class libView(ModelView):
     def doc(self):
         dt = json.loads(request.data)
         lib = dt["lib"]
+        
+        if "dataurl" in dt:
+            dataurl = dt["dataurl"]
+            self.add_lib_record(lib,dataurl)
         check_lib = list(self.appbuilder.session.query(libModel).filter(libModel.name == lib).all())
         if len(check_lib)>0:
             return jsonify({"status":200,"success":True, "data":{
@@ -30,32 +34,15 @@ class libView(ModelView):
             }})
         else:
             logging.info(f"parsing {lib}")
-            dt = self.parse_lib(lib)
+            dt, dataurl= parse_lib(lib, import_ = True)
+            self.add_lib_record(lib,dataurl)
             rt = {"status": 200, "success": True, "data": {
                 "rows": len(dt), "frame": dt.df.to_dict(orient="record")
              }}
         return jsonify(rt)
 
-    def parse_lib(self, lib):
-        dataurl = "sqlite:///" + os.path.join(basedir, f"{lib}.db")
-
+    def add_lib_record(self,lib,dataurl):
         self.appbuilder.session.add(libModel(name=lib, data=dataurl))
         self.appbuilder.session.commit()
 
-        os.system(f"rm {dataurl}")
-        eng = ce(dataurl)
-        sess = Session(bind=eng)
-
-        for m in [docModel,docGraphModel,inhGraphModel]:
-            self.refresh_table(m, engine = eng)
-
-        dt = docTour(importlib.import_module(lib), lib, sess)
-        return dt
-
-    def refresh_table(self, model,engine):
-        table = model.__table__
-        if table.exists(engine):
-            logging.info(f"dropping existing table: {str(table)}")
-            table.drop(engine)
-        logging.info(f"creating a new table: {str(table)}")
-        table.create(engine)
+    

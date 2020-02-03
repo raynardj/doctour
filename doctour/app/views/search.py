@@ -144,7 +144,11 @@ class docView(ModelView):
         dt = json.loads(request.data)
         lib = dt["lib"]
         name_chain = list(dt["name_chain"].split("."))[1:]
-        obj = __import__(lib)
+        try:
+            obj = __import__(lib)
+        except:
+            return jsonify({"status":500, "success":False,
+                })
         for att in name_chain:
             obj = getattr(obj,att)
 
@@ -152,9 +156,9 @@ class docView(ModelView):
             code  = inspect.getsource(obj)
         except:
             code = "None"
-        return {"status":200, "success":True,
+        return jsonify({"status":200, "success":True,
                 "data":
                     {"code":code}
-                }
+                })
 
 

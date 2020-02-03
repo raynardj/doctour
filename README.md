@@ -19,6 +19,21 @@ Or assgin a port
 doctour --port=8001
 ```
 
+#### Use DocTour while coding
+```python
+from torch import nn
+import numpy as np
+import doctour
+```
+you can exam class, fuction, module, variable...
+```python
+doctour.exam(nn.LSTM)
+```
+This will return a visit address
+```
+please visit http://localhost:8001/doc/read/LSTM_213748/140265367140768/
+```
+
 
 ### Notebooks
 * [Experiments](nbs/doc_tour.ipynb)

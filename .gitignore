@@ -1,1 +1,3 @@
 doctour/*.db
+doctour/app/static/css
+doctour/app/static/js/highlight/*

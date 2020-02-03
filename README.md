@@ -31,7 +31,7 @@ doctour.exam(nn.LSTM)
 ```
 This will return a visit address
 ```
-please visit http://localhost:8001/doc/read/LSTM_213748/140265367140768/
+please visit http://localhost:8080/doc/read/LSTM_213748/140265367140768/
 ```
 
 

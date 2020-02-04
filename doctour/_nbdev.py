@@ -2,9 +2,17 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {}
+index = {"Session": "python_parse.ipynb",
+         "basedir": "python_parse.ipynb",
+         "most_frequent": "python_parse.ipynb",
+         "get_source": "python_parse.ipynb",
+         "get_path": "python_parse.ipynb",
+         "checks": "python_parse.ipynb",
+         "refresh_table": "python_parse.ipynb",
+         "docTour": "python_parse.ipynb",
+         "parse_lib": "python_parse.ipynb"}
 
-modules = []
+modules = ["base/parse.py"]
 
 doc_url = "https://raynardj.github.io/doctour/"
 

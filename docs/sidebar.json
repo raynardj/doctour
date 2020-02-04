@@ -1,5 +1,6 @@
 {
   "doctour": {
-    "Overview": "/"
+    "Overview": "/",
+    "Parsing Python": "/python_parse"
   }
 }

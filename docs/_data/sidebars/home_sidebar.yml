@@ -9,6 +9,9 @@ entries:
     - output: web,pdf
       title: Overview
       url: /
+    - output: web,pdf
+      title: Parsing Python
+      url: /python_parse
     output: web
     title: doctour
   output: web

@@ -4,3 +4,5 @@ doctour/app/static/css
 doctour/app/static/js/highlight/*
 localnbs/*
 nbs/.ipynb_checkpoints
+nbs/.gitattributes
+nbs/.last_checked

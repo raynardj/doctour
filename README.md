@@ -1,5 +1,8 @@
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+
 # doctour
-An nasty way to traverse through docs easier
+
+An nasty way to parse python knowledge
 
 ### Tutorial
 

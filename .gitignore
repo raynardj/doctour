@@ -2,4 +2,5 @@ doctour/*.db
 doctour/app/static/css
 .idea/*
 doctour/app/static/js/highlight/*
-nbs/*
+localnbs/*
+nbs/.ipynb_checkpoints

@@ -1,6 +1,10 @@
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+# Title
+> summary
 
-# doctour
+
+# Doctour
+
+![License: MIT](nbs/https:/img.shields.io/badge/License-MIT-blue.svg)
 
 An nasty way to parse python knowledge
 
@@ -22,21 +26,28 @@ Or assgin a port
 doctour --port=8001
 ```
 
-#### Use DocTour while coding
+## Exam variable during your coding
+
+eg. while you're doing nlp and using lstm, you wonder what the code in pytorch is, what's its inheritance structure, which of the functions was defined in the lstm code, which other functions are inherited from its ancestors
+
 ```python
 from torch import nn
 import numpy as np
 import doctour
 ```
+
 you can exam class, fuction, module, variable...
+
 ```python
 doctour.exam(nn.LSTM)
 ```
-This will return a visit address
-```
-please visit http://localhost:8080/doc/read/LSTM_213748/140265367140768/
-```
+
+    please visit http://localhost:8080/doc/read/LSTM_173834/140681093056304/
 
 
-### Notebooks
-* [Experiments](nbs/doc_tour.ipynb)
+
+
+
+    <DocTour:LSTM_173834>
+
+

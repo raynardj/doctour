@@ -1,12 +1,6 @@
-# Title
-> summary
-
-
 # Doctour
+> An nasty way to parse python knowledge
 
-![License: MIT](nbs/https:/img.shields.io/badge/License-MIT-blue.svg)
-
-An nasty way to parse python knowledge
 
 ### Tutorial
 

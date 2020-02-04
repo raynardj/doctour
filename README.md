@@ -1,5 +1,5 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
-# Doctour
+# Doc Tour
 > An nasty way to parse python knowledge
 
 
@@ -8,7 +8,7 @@
 #### Installation
 Plese install on [anaconda3](https://www.anaconda.com/distribution/)
 ```shell
-python -m pip install git+https://github.com/raynardj/doctour
+python -m pip install doc_tour
 ```
 #### Running
 On your terminal, the default port is 8080, Now visit [http://localhost:8080](http://localhost:8080) for web UI

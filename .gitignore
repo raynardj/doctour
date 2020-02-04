@@ -6,3 +6,6 @@ localnbs/*
 nbs/.ipynb_checkpoints
 nbs/.gitattributes
 nbs/.last_checked
+build/*
+dist/*
+*.egg-info

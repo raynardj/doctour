@@ -2,7 +2,14 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"Session": "python_parse.ipynb",
+index = {"docModel": "python_parse.ipynb",
+         "docGraphModel": "python_parse.ipynb",
+         "docModel.kids": "python_parse.ipynb",
+         "docModel.parents": "python_parse.ipynb",
+         "inhGraphModel": "python_parse.ipynb",
+         "docModel.dess": "python_parse.ipynb",
+         "docModel.ancs": "python_parse.ipynb",
+         "Session": "python_parse.ipynb",
          "basedir": "python_parse.ipynb",
          "most_frequent": "python_parse.ipynb",
          "get_source": "python_parse.ipynb",
@@ -12,7 +19,8 @@ index = {"Session": "python_parse.ipynb",
          "docTour": "python_parse.ipynb",
          "parse_lib": "python_parse.ipynb"}
 
-modules = ["base/parse.py"]
+modules = ["base/doc.py",
+           "base/parse.py"]
 
 doc_url = "https://raynardj.github.io/doctour/"
 

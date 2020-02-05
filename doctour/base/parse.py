@@ -7,7 +7,6 @@ __all__ = ['Session', 'basedir', 'most_frequent', 'get_source', 'get_path', 'che
 from .doc import docModel, docGraphModel, inhGraphModel
 
 # Cell
-# hide
 import pandas as pd
 import inspect
 
@@ -210,4 +209,3 @@ def parse_lib(lib, import_ = True, obj = None):
     else:
         dt = docTour(obj, lib, sess)
     return dt,dataurl
-

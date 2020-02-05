@@ -1,4 +1,3 @@
-
 <div id="loaded_libs"></div>
 
 <h1><strong>{{name}}</strong> {%if name!=alias %}({{alias}}){%endif%} [{{ctype}}]</h1>
@@ -12,185 +11,159 @@
     <script>hljs.initHighlightingOnLoad();</script>
 </head>
 <div>
-    <table class="table">
-        <tr>
-            <th>Name</th>
-            <td>{{name}}</td>
-        </tr>
-        <tr>
-            <th>File Path</th>
-            <td>{{path}}</td>
-        </tr>
+
+
+    <div class="col-sm-4">
+
+        {% if ancs.length>0 %}
+        <div class="panel-group" id="accordionAncestors" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingAncestors">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordionAncestors"
+                            href="#collapseAncestors" aria-expanded="true" aria-controls="collapseAncestors">
+                            Class Ancestors
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseAncestors" class="panel-collapse collapse in" role="tabpanel"
+                    aria-labelledby="headingAncestors">
+                    <div class="panel-body">
+                        {%for anc in ancs%}
+                        <a href="/doc/read/{{lib}}/{{anc.id}}" target="_blank"
+                            class="btn btn-warning">{{anc.name}}{%if anc.name!=anc.alias%}({{anc.alias}}){%endif%}</a>
+                        {%endfor%}
+
+                        <br>
+                        <div id="traceup">Trace Up</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {%else%}
+        The {{ctype}} has no ancestor
+        {%endif%}
+        {%if dess.length >0%}
+
+        <div class="panel-group" id="accordionDescendants" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingDescendants">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordionDescendants"
+                            href="#collapseDescendants" aria-expanded="true" aria-controls="collapseDescendants">
+                            Class Descendants
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseDescendants" class="panel-collapse collapse in" role="tabpanel"
+                    aria-labelledby="headingDescendants">
+                    <div class="panel-body">
+                        {%for des in dess%}
+                        <a href="/doc/read/{{lib}}/{{des.id}}" target="_blank"
+                            class="btn btn-warning">{{des.name}}{%if des.name!=des.alias%}({{des.alias}}){%endif%}</a>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%else%}
+        The {{ctype}} has no descendant
+        {%endif%}
+        <div class="panel-group" id="accordionKids" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingKids">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordionKids" href="#collapseKids"
+                            aria-expanded="true" aria-controls="collapsekids">
+                            Attributes
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseKids" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingKids">
+                    <div class="panel-body">
+                        {%for k in kids%}
+                        <a href="/doc/read/{{lib}}/{{k.id}}" target="_blank"
+                            class="btn btn-sm btn-{%if k.ctype=='class'%}success{%elif k.ctype=='function'%}default{%else%}warning{%endif%}">{{k.name}}</a>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-group" id="accordionParents" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingParents">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordionParents" href="#collapseParents"
+                            aria-expanded="true" aria-controls="collapseParents">
+                            Who use me as attribute
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseParents" class="panel-collapse collapse" role="tabpanel"
+                    aria-labelledby="headingParents">
+                    <div class="panel-body">
+                        {%for parent in parents%}
+                        <a href="/doc/read/{{lib}}/{{parent.id}}" target="_blank"
+                            class="btn btn-warning">{{parent.name}}</a>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-group" id="collapPanel" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingNames">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#collapPanel" href="#collapseNames"
+                            aria-expanded="true" aria-controls="collapseNames">
+                            Usage within library
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseNames" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNames">
+                    <div class="panel-body">
+                        <div class="list-group">
+                            {%for nc in names%}
+                            <div class="list-group-item">{{nc}}</div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="col-sm-8">
         {% if doc ==''%}
         <tr>
             <th>Documentation</th>
-            <td><pre><code class="plaintext">{{doc}}</code></pre></td>
+            <td>
+                <pre><code class="plaintext">{{doc}}</code></pre>
+            </td>
         </tr>
+
         {% endif %}
-        <tr>
-            <td colspan="2">
-                {% if ancs.length>0 %}
-                <div class="panel-group" id="accordionAncestors" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingAncestors">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordionAncestors" href="#collapseAncestors"
-                                   aria-expanded="true" aria-controls="collapseAncestors">
-                                    Class Ancestors
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseAncestors" class="panel-collapse collapse in" role="tabpanel"
-                             aria-labelledby="headingAncestors">
-                            <div class="panel-body">
-                                {%for anc in ancs%}
-                                <a href="/doc/read/{{lib}}/{{anc.id}}" target="_blank"
-                                   class="btn btn-warning">{{anc.name}}{%if anc.name!=anc.alias%}({{anc.alias}}){%endif%}</a>
-                                {%endfor%}
+        <div class="panel-group" id="accordionCode" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingCode">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseCode"
+                            aria-expanded="true" aria-controls="collapseCode">
+                            Code
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseCode" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingCode">
+                    <div class="panel-body">
+                        <pre><code class="path">{{path}}</code></pre>
+                        <pre><code class="python">{{code}}</code></pre>
 
-                                <br>
-                                <div id="traceup">Trace Up</div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-
-                {%else%}
-                The {{ctype}} has no ancestor
-                {%endif%}
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                {%if dess.length >0%}
-
-                <div class="panel-group" id="accordionDescendants" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingDescendants">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordionDescendants" href="#collapseDescendants"
-                                   aria-expanded="true" aria-controls="collapseDescendants">
-                                    Class Descendants
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseDescendants" class="panel-collapse collapse in" role="tabpanel"
-                             aria-labelledby="headingDescendants">
-                            <div class="panel-body">
-                                {%for des in dess%}
-                                <a href="/doc/read/{{lib}}/{{des.id}}" target="_blank"
-                                   class="btn btn-warning">{{des.name}}{%if des.name!=des.alias%}({{des.alias}}){%endif%}</a>
-                                {%endfor%}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {%else%}
-                The {{ctype}} has no descendant
-                {%endif%}
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div class="panel-group" id="accordionCode" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingCode">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseCode"
-                                   aria-expanded="true" aria-controls="collapseCode">
-                                    Code
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseCode" class="panel-collapse collapse in" role="tabpanel"
-                             aria-labelledby="headingCode">
-                            <div class="panel-body">
-                                <pre><code class="python">{{code}}</code></pre>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div class="panel-group" id="accordionKids" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingKids">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordionKids" href="#collapseKids"
-                                   aria-expanded="true" aria-controls="collapsekids">
-                                    Attributes
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseKids" class="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingKids">
-                            <div class="panel-body">
-                                {%for k in kids%}
-                                <a href="/doc/read/{{lib}}/{{k.id}}" target="_blank"
-                                   class="btn btn-{%if k.ctype=='class'%}success{%elif k.ctype=='function'%}primary{%else%}warning{%endif%}">{{k.name}}</a>
-                                {%endfor%}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div class="panel-group" id="accordionParents" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingParents">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordionParents" href="#collapseParents"
-                                   aria-expanded="true" aria-controls="collapseParents">
-                                    Who use me as attribute
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseParents" class="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingParents">
-                            <div class="panel-body">
-                                {%for parent in parents%}
-                                <a href="/doc/read/{{lib}}/{{parent.id}}" target="_blank"
-                                   class="btn btn-warning">{{parent.name}}</a>
-                                {%endfor%}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="2">
-                <div class="panel-group" id="collapPanel" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingNames">
-                            <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#collapPanel" href="#collapseNames"
-                                   aria-expanded="true" aria-controls="collapseNames">
-                                    Usage within library
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseNames" class="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingNames">
-                            <div class="panel-body">
-                                <div class="list-group">
-                                    {%for nc in names%}
-                                    <div class="list-group-item">{{nc}}</div>
-                                    {%endfor%}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-
-
-    </table>
-</div>
+            </div>
+        </div>
+    </div>

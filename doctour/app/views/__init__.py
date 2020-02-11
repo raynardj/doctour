@@ -51,4 +51,5 @@ def page_not_found(e):
 appbuilder.add_view_no_menu(searchView)
 appbuilder.add_view(libView, "Libraries")
 appbuilder.add_view_no_menu(docView)
+
 db.create_all()

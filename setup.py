@@ -26,7 +26,7 @@ setup(
                             ]},
     install_requires = [
         "flask",
-        "flask_appbuilder==2.2.2",
+        "flask_appbuilder==3.3.4",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
